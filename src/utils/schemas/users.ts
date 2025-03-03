@@ -1,7 +1,6 @@
 import mongoose, { Document, Model, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-
 export interface IUser extends Document {
   name: string;
   role: mongoose.Types.ObjectId;
@@ -24,6 +23,7 @@ const UserSchema: Schema<IUser> = new mongoose.Schema({
     required: true
   },
 });
+
 UserSchema.methods.matchPassword = async function (enteredPassword: string) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
