@@ -17,11 +17,13 @@ export const UserContext = createContext<{
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
+
   useEffect(() => {
     const userFromLocal = localStorage.getItem('user')
     if (!userFromLocal) return
     setUser(JSON.parse(userFromLocal || '{}'))
   }, [])
+
   return (
     <UserContext.Provider value={{ user, setUser }}>
       {children}

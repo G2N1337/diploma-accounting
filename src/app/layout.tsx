@@ -1,22 +1,25 @@
 'use client'
+
+import '@mantine/core/styles.css'
+import '@mantine/dates/styles.css'
+
+import 'dayjs/locale/ru'
+
 import '../utils/error-map'
 
-import { Geist, Geist_Mono } from 'next/font/google'
-import './globals.css'
-import { UserProvider } from '@/context/user-context'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { AppShell, MantineProvider } from '@mantine/core'
+import {
+  AppShell,
+  ColorSchemeScript,
+  mantineHtmlProps,
+  MantineProvider,
+} from '@mantine/core'
+
+import { UserProvider } from '@/context/user-context'
+
 import { HeaderComponent } from './components/header/header.component'
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-})
+import { Navbar } from './components/navbar/navbar.component'
+import { DatesProvider } from '@mantine/dates'
 
 export default function RootLayout({
   children,
@@ -26,18 +29,38 @@ export default function RootLayout({
   const queryClient = new QueryClient()
 
   return (
-    <UserProvider>
-      <QueryClientProvider client={queryClient}>
-        <MantineProvider withGlobalStyles withNormalizeCSS>
-          <AppShell header={<HeaderComponent />}>
-            <html lang='en'>
-              <body className={`${geistSans.variable} ${geistMono.variable}`}>
-                {children}
-              </body>
-            </html>
-          </AppShell>
-        </MantineProvider>
-      </QueryClientProvider>
-    </UserProvider>
+    <html lang='en' {...mantineHtmlProps}>
+      <head>
+        <ColorSchemeScript />
+      </head>
+      <body>
+        <UserProvider>
+          <QueryClientProvider client={queryClient}>
+            <MantineProvider>
+              <DatesProvider
+                settings={{
+                  locale: 'ru',
+                  timezone: 'Asia/Krasnoyarsk',
+                }}
+              >
+                <AppShell
+                  navbar={{ width: 200, breakpoint: 'sm' }}
+                  padding='md'
+                  header={{ height: 60 }}
+                >
+                  <AppShell.Header>
+                    <HeaderComponent />
+                  </AppShell.Header>
+                  <AppShell.Navbar p='md'>
+                    <Navbar />
+                  </AppShell.Navbar>
+                  <AppShell.Main>{children}</AppShell.Main>
+                </AppShell>
+              </DatesProvider>
+            </MantineProvider>
+          </QueryClientProvider>
+        </UserProvider>
+      </body>
+    </html>
   )
 }

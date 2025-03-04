@@ -40,6 +40,10 @@ export default function SignInPage() {
     )
 
     setUser(res.data)
+
+    localStorage.setItem('user', JSON.stringify(res.data))
+    localStorage.setItem('token', res.data.token)
+
     router.push('/dashboard')
 
     return res
@@ -67,7 +71,7 @@ export default function SignInPage() {
               />
 
               <Button variant='gradient' type='submit'>
-                Войти!
+                Войти
               </Button>
             </Stack>
           </form>

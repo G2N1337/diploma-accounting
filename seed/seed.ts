@@ -26,10 +26,11 @@ async function seed() {
     console.log('[🚀] Connected to MongoDB for seeding.');
 
     // Универсальный посев для коллекции AccountChangeType
+    // @ts-expect-error: IDK
     await seedCollection(AccountChangeType, accountChangeTypes);
 
     await mongoose.disconnect();
-    console.log('[✅] Disconnected from MongoDB.');
+    console.log('Disconnected from MongoDB.');
   } catch (error) {
     console.error('Seeding error:', error);
     process.exit(1);

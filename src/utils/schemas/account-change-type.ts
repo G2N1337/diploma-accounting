@@ -1,8 +1,9 @@
-import mongoose, { Document, Model, Schema } from 'mongoose';
+import mongoose, { Model, Schema } from 'mongoose';
 
-export interface AccountChangeType extends Document {
+export interface AccountChangeType {
   name: string
   color: string
+  _id: string
 }
 
 export enum AccountChangeTypeEnum {
@@ -16,7 +17,6 @@ const AccountChangeTypeSchema: Schema<AccountChangeType> = new mongoose.Schema({
     required: true,
     enum: Object.values(AccountChangeTypeEnum),
     unique: true,
-
   },
   color: {
     type: String,
@@ -31,7 +31,7 @@ AccountChangeTypeSchema.statics.initializeDefaults = async function initializeDe
       { name: AccountChangeTypeEnum.Income, color: 'green' },
       { name: AccountChangeTypeEnum.Expense, color: 'red' },
     ]);
-    console.log(count)
+    console.log('Added: ', count, ' items')
   }
 }
 
