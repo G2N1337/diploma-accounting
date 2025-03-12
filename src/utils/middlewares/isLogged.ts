@@ -1,19 +1,25 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import jwt from 'jsonwebtoken'
 import User from "../schemas/users";
-export const isLogged = async (req: NextApiRequest, res: NextApiResponse) => {
-  const token = req.headers.authorization?.split(' ')[1];
+import { NextResponse } from "next/server";
+import { headers } from "next/headers";
+export const isLogged = async () => {
+  const headersList = await headers()
 
+  const referer = headersList.get("authorization");
+
+  const token = referer?.split(' ')[1];
   if (!token) {
-    return res.status(401).json({ success: false, message: 'Unauthorized' });
+    return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 400 });
   }
 
   const decoded = jwt.verify(token, process.env.TOKEN_SECRET || '');
+
   if (decoded) {
     // @ts-expect-error: Error here is expected and nothing is going to happen.
-    await User.findById(decoded.id);
+    const user = User.findById(decoded.id)
+    return user;
 
   } else {
-    res.status(401).json({ success: false, message: 'Unauthorized' });
+    return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
   }
 }

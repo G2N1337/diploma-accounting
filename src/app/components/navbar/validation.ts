@@ -11,7 +11,7 @@ export type AccountingType = {
 
 export const AccountingSchema = z.object({
   type: z.nativeEnum(AccountChangeTypeEnum),
-  amount: z.coerce.number().min(1),
+  amount: z.number().min(1),
   comment: z.string().optional(),
   category: z.string().min(1),
   date: z.date(),

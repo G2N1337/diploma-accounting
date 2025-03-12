@@ -18,6 +18,7 @@ import { AccountingSchema, AccountingType } from './validation'
 import { AccountChangeTypeEnum } from '@/utils/enums/account-change-type'
 import { NumberInput } from '../ui-form/NumberInput'
 import { TextInput } from '../ui-form/TextInput'
+import { useNewAccountPosition } from '@/utils/requests/create-account-position'
 
 export const DrawerContent = () => {
   const { data } = useAccountChangeTypes()
@@ -27,7 +28,7 @@ export const DrawerContent = () => {
   const controls = data.data?.map((item) => {
     return { label: item?.name, value: item?.name }
   })
-
+  const createNewAccountPosition = useNewAccountPosition()
   const { control, handleSubmit } = useForm<AccountingType>({
     resolver: zodResolver(AccountingSchema),
     defaultValues: {
@@ -40,7 +41,7 @@ export const DrawerContent = () => {
   })
 
   const submitForm = (values: AccountingType) => {
-    console.log(values)
+    createNewAccountPosition.mutate(values)
     return values
   }
 
