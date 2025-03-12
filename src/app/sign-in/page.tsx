@@ -53,7 +53,7 @@ export default function SignInPage() {
     <Center h='100vh'>
       <Card radius='lg' p={36}>
         <Card.Section>
-          <Title mb={12}>Войти в аккаунт</Title>
+          <Title mb={12}>Войти в Coinly</Title>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack align='stretch'>
               <TextInput

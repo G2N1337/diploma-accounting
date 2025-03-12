@@ -1,11 +1,13 @@
 'use client'
 
 import useUserData from '@/utils/hooks/use-user-data'
-import { Avatar, Flex, Popover, Title } from '@mantine/core'
-import { usePathname } from 'next/navigation'
+import { Avatar, Button, Flex, Popover, Title } from '@mantine/core'
+import { usePathname, useRouter } from 'next/navigation'
 
 export const HeaderComponent = () => {
   const user = useUserData()
+
+  const router = useRouter()
 
   const pathname = usePathname()
 
@@ -13,10 +15,16 @@ export const HeaderComponent = () => {
     return null
   }
 
+  const signOff = () => {
+    localStorage.removeItem('user')
+    localStorage.removeItem('token')
+    router.push('/sign-in')
+  }
+
   return (
     <Flex w='100%' justify='space-between' align='center' h='100%' px={32}>
       <Flex>
-        <Title order={2}>CoinTrack</Title>
+        <Title order={2}>Coinly</Title>
       </Flex>
       <Flex>
         <Popover>
@@ -30,7 +38,11 @@ export const HeaderComponent = () => {
               {user?.name}
             </Avatar>
           </Popover.Target>
-          <Popover.Dropdown>jopa</Popover.Dropdown>
+          <Popover.Dropdown>
+            <Button onClick={signOff} variant='transparent'>
+              Выйти
+            </Button>
+          </Popover.Dropdown>
         </Popover>
       </Flex>
     </Flex>

@@ -8,7 +8,7 @@ export const PositionCard: React.FC<{ position: AccountPosition }> = ({
   position,
 }) => {
   return (
-    <Card shadow='xl' radius='lg' mih={200}>
+    <Card shadow='xl' radius='lg' mih={150}>
       <Flex direction='column' gap={12}>
         <Text size='xs' mb='auto' mr='auto'>
           {format(position.date, 'PP в pp', { locale: ru })}

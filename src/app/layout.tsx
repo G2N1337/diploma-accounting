@@ -22,12 +22,16 @@ import { UserProvider } from '@/context/user-context'
 import { HeaderComponent } from './components/header/header.component'
 import { Navbar } from './components/navbar/navbar.component'
 import { DatesProvider } from '@mantine/dates'
+import { usePathname } from 'next/navigation'
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const pathname = usePathname()
+  const isOnLoginScreen = ['/sign-in', '/sign-up'].includes(pathname)
+
   const queryClient = new QueryClient()
 
   return (
@@ -48,16 +52,23 @@ export default function RootLayout({
                 }}
               >
                 <AppShell
-                  navbar={{ width: 200, breakpoint: 'sm' }}
+                  navbar={{
+                    width: isOnLoginScreen ? 0 : 200,
+                    breakpoint: 'sm',
+                  }}
                   padding='md'
-                  header={{ height: 60 }}
+                  header={{ height: isOnLoginScreen ? 0 : 60 }}
                 >
-                  <AppShell.Header>
-                    <HeaderComponent />
-                  </AppShell.Header>
-                  <AppShell.Navbar p='md'>
-                    <Navbar />
-                  </AppShell.Navbar>
+                  {!isOnLoginScreen && (
+                    <>
+                      <AppShell.Header>
+                        <HeaderComponent />
+                      </AppShell.Header>
+                      <AppShell.Navbar p='md'>
+                        <Navbar />
+                      </AppShell.Navbar>
+                    </>
+                  )}
                   <AppShell.Main>{children}</AppShell.Main>
                 </AppShell>
               </DatesProvider>
