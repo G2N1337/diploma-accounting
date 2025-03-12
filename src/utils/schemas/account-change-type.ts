@@ -1,17 +1,13 @@
-import mongoose, { Model, Schema } from 'mongoose';
+import * as mongoose from 'mongoose';
+import { AccountChangeTypeEnum } from '../enums/account-change-type';
 
-export interface AccountChangeType {
+export interface AccountChangeInterface {
   name: string
   color: string
   _id: string
 }
 
-export enum AccountChangeTypeEnum {
-  Income = 'Пополнение',
-  Expense = 'Расходы',
-}
-
-const AccountChangeTypeSchema: Schema<AccountChangeType> = new mongoose.Schema({
+const AccountChangeTypeSchema: mongoose.Schema<AccountChangeInterface> = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -23,19 +19,6 @@ const AccountChangeTypeSchema: Schema<AccountChangeType> = new mongoose.Schema({
     required: true,
   }
 });
-
-AccountChangeTypeSchema.statics.initializeDefaults = async function initializeDefaults() {
-  const count = await this.countDocuments();
-  if (count === 0) {
-    await this.insertMany([
-      { name: AccountChangeTypeEnum.Income, color: 'green' },
-      { name: AccountChangeTypeEnum.Expense, color: 'red' },
-    ]);
-    console.log('Added: ', count, ' items')
-  }
-}
-
-
-const AccountChangeType: Model<AccountChangeType> = mongoose.models.AccountChangeType || mongoose.model<AccountChangeType>('AccountChangeType', AccountChangeTypeSchema);
+const AccountChangeType: mongoose.Model<AccountChangeInterface> = mongoose.models.AccountChangeType || mongoose.model('AccountChangeType', AccountChangeTypeSchema);
 
 export default AccountChangeType;
