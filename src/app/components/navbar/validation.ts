@@ -1,8 +1,7 @@
-import { AccountChangeTypeEnum } from '@/utils/enums/account-change-type'
 import { z } from 'zod'
 
 export type AccountingType = {
-  type: AccountChangeTypeEnum
+  type: string
   amount: number
   category: string
   comment?: string
@@ -10,7 +9,7 @@ export type AccountingType = {
 }
 
 export const AccountingSchema = z.object({
-  type: z.nativeEnum(AccountChangeTypeEnum),
+  type: z.string().min(1),
   amount: z.number().min(1),
   comment: z.string().optional(),
   category: z.string().min(1),

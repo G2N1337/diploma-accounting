@@ -15,48 +15,76 @@ import { DateInput } from '../ui-form/DateInput'
 import { SegmentedControl } from '../ui-form/SegmentedControl'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AccountingSchema, AccountingType } from './validation'
-import { AccountChangeTypeEnum } from '@/utils/enums/account-change-type'
 import { NumberInput } from '../ui-form/NumberInput'
 import { TextInput } from '../ui-form/TextInput'
 import { useNewAccountPosition } from '@/utils/requests/create-account-position'
+import { notifications } from '@mantine/notifications'
+import { useQueryClient } from '@tanstack/react-query'
 
-export const DrawerContent = () => {
+export const DrawerContent: React.FC<{ closeDrawer: () => void }> = ({
+  closeDrawer,
+}) => {
   const { data } = useAccountChangeTypes()
 
   const { data: expenseCategories } = useExpenseCategories()
 
-  const controls = data.data?.map((item) => {
-    return { label: item?.name, value: item?.name }
+  const queryClient = useQueryClient()
+
+  const changeTypeControls = data.data?.map((item) => {
+    return { label: item?.name, value: item?._id }
   })
+
+  const expenseCategoriesControls = expenseCategories.data?.map((item) => {
+    return { label: item?.label, value: item?._id }
+  })
+
   const createNewAccountPosition = useNewAccountPosition()
+
   const { control, handleSubmit } = useForm<AccountingType>({
     resolver: zodResolver(AccountingSchema),
     defaultValues: {
-      amount: 0,
+      amount: undefined,
       category: '',
       date: new Date(),
-      type: AccountChangeTypeEnum.Expense,
+      type: '',
       comment: '',
     },
   })
 
   const submitForm = (values: AccountingType) => {
-    createNewAccountPosition.mutate(values)
+    createNewAccountPosition.mutate(values, {
+      onSuccess: () => {
+        notifications.show({
+          message: `Позиция на сумму ₽${values.amount} создана!`,
+          color: 'green',
+        })
+
+        queryClient.invalidateQueries({ queryKey: ['get-user-positions'] })
+
+        closeDrawer()
+      },
+    })
+
     return values
   }
 
   return (
     <form onSubmit={handleSubmit(submitForm)}>
       <Stack gap={24} w='100%' align='stretch' px={12} mt={48}>
-        {controls && (
-          <SegmentedControl name='type' control={control} data={controls} />
+        {changeTypeControls && (
+          <SegmentedControl
+            name='type'
+            control={control}
+            data={changeTypeControls}
+          />
         )}
 
-        {expenseCategories.data.length > 0 && (
+        {expenseCategoriesControls && (
           <Select
+            searchable
             control={control}
             name='category'
-            data={expenseCategories.data}
+            data={expenseCategoriesControls}
             placeholder='Выберите категорию трат'
             leftSection={<IconShoppingBagPlus />}
           />

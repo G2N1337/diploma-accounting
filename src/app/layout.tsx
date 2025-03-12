@@ -2,6 +2,7 @@
 
 import '@mantine/core/styles.css'
 import '@mantine/dates/styles.css'
+import '@mantine/notifications/styles.css'
 
 import 'dayjs/locale/ru'
 
@@ -14,6 +15,7 @@ import {
   mantineHtmlProps,
   MantineProvider,
 } from '@mantine/core'
+import { Notifications } from '@mantine/notifications'
 
 import { UserProvider } from '@/context/user-context'
 
@@ -37,6 +39,8 @@ export default function RootLayout({
         <UserProvider>
           <QueryClientProvider client={queryClient}>
             <MantineProvider>
+              <Notifications />
+
               <DatesProvider
                 settings={{
                   locale: 'ru',

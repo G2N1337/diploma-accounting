@@ -1,19 +1,22 @@
-import mongoose, { Document, Model, Schema } from 'mongoose';
-import { AccountChangeTypeEnum } from '../enums/account-change-type';
+import mongoose, { Model, Schema } from 'mongoose';
+import { ExpenseCategoriesType } from './expense-categories';
+import { AccountChangeInterface } from './account-change-type';
 
-export interface AccountPosition extends Document {
-  type: AccountChangeTypeEnum;
+export interface AccountPosition {
+  category: ExpenseCategoriesType;
+  type: AccountChangeInterface;
+  user: typeof mongoose.Schema.ObjectId
   amount: number
   comment: string
-  category: string
   date: Date
-  user: typeof mongoose.Schema.ObjectId
+  _id: string
 }
 
 const AccountPositionSchema: Schema<AccountPosition> = new mongoose.Schema({
   category: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
     required: true,
+    ref: 'ExpenseCategories'
   },
   user: {
     type: mongoose.Schema.ObjectId,
@@ -21,9 +24,9 @@ const AccountPositionSchema: Schema<AccountPosition> = new mongoose.Schema({
     ref: 'User'
   },
   type: {
-    type: String,
-    enum: Object.values(AccountChangeTypeEnum),
+    type: mongoose.Schema.ObjectId,
     required: true,
+    ref: 'AccountChangeType'
   },
   amount: {
     type: Number,

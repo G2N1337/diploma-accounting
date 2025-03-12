@@ -12,8 +12,6 @@ export async function POST(req: Request) {
     const body = await req.json()
     //@ts-expect-error: IDK
     const accountChange = new AccountPosition({ ...body, user: user?._id })
-    //@ts-expect-error: IDK
-    console.log({ ...body, user: user?._id })
 
     await accountChange.save()
 

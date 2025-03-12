@@ -13,7 +13,7 @@ export const Navbar = () => {
         <IconPlus />
       </ActionIcon>
       <Drawer opened={opened} onClose={close} title='Добавить расходы'>
-        <DrawerContent />
+        <DrawerContent closeDrawer={close} />
       </Drawer>
       <Button variant='transparent'>Отчеты</Button>
     </Stack>
