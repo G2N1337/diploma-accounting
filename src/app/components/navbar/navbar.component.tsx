@@ -3,6 +3,7 @@ import React from 'react'
 import { IconPlus } from '@tabler/icons-react'
 import { useDisclosure } from '@mantine/hooks'
 import { DrawerContent } from './drawer.component'
+import Link from 'next/link'
 
 export const Navbar = () => {
   const [opened, { open, close }] = useDisclosure(false)
@@ -15,7 +16,12 @@ export const Navbar = () => {
       <Drawer opened={opened} onClose={close} title='Добавить расходы'>
         <DrawerContent closeDrawer={close} />
       </Drawer>
-      <Button variant='transparent'>Отчеты</Button>
+      <Button variant='transparent'>
+        <Link href='/dashboard'>Главная</Link>
+      </Button>
+      <Button variant='transparent'>
+        <Link href='/reports'>Отчеты</Link>
+      </Button>
     </Stack>
   )
 }
