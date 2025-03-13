@@ -16,10 +16,13 @@ export async function GET(request: NextRequest) {
 
     const type = searchParams.get("type");
 
+    const category = searchParams.get("category");
+
     const positions = await AccountPosition.find({
       //@ts-expect-error: IDK
       user: user?.id,
       ...(type ? { type } : {}),
+      ...(category ? { category } : {}),
     })
       .populate({ path: 'category', model: ExpenseCategories })
       .populate({ path: 'type', model: AccountChangeType })

@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { AccountChangeType } from '../schemas/account-change-type'
 import axiosClient from './axios/client'
+import { AccountChangeInterface } from '../schemas/account-change-type'
 
 const fetchAccountChangeTypes = async (): Promise<{
-  data: AccountChangeType[]
+  data: AccountChangeInterface[]
   success: boolean
 }> => {
   const { data } = await axiosClient.get<{
-    data: AccountChangeType[]
+    data: AccountChangeInterface[]
     success: boolean
   }>('/api/account-change-type')
 
@@ -17,7 +17,7 @@ const fetchAccountChangeTypes = async (): Promise<{
 
 export const useAccountChangeTypes = () => {
   return useQuery<{
-    data: AccountChangeType[]
+    data: AccountChangeInterface[]
     success: boolean
   }>({
     queryKey: ['account-change-types'],
