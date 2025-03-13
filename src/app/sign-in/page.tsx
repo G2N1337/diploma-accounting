@@ -1,6 +1,14 @@
 'use client'
 
-import { Button, Card, Center, Stack, TextInput, Title } from '@mantine/core'
+import {
+  Button,
+  Card,
+  Center,
+  Stack,
+  Text,
+  TextInput,
+  Title,
+} from '@mantine/core'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import React, { useContext } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -8,6 +16,7 @@ import { SignInSchema } from './validation'
 import axios from 'axios'
 import { User, UserContext } from '@/context/user-context'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 type LoginFormInput = {
   login: string
@@ -73,6 +82,11 @@ export default function SignInPage() {
               <Button variant='gradient' type='submit'>
                 Войти
               </Button>
+              <Link href='/sign-up'>
+                <Text size='sm' mx='auto' c='gray'>
+                  нет аккаунта?
+                </Text>
+              </Link>
             </Stack>
           </form>
         </Card.Section>

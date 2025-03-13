@@ -36,7 +36,7 @@ export const MostPopularCard = () => {
   const { data } = useMostCommonCategories()
 
   return (
-    <Card shadow='xl' radius='lg'>
+    <Card mih={300} shadow='xl' radius='lg'>
       <Card.Section px={20}>
         <Title order={2}>Самые частые категории</Title>
       </Card.Section>

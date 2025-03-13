@@ -17,10 +17,11 @@ export const PositionCard: React.FC<{ position: AccountPosition }> = ({
           <Text>
             Вы совершили операцию{' '}
             <Text c={position.type.color} span>
-              &ldquo;{position.type.name}&rdquo;
+              {position.type.name}
             </Text>{' '}
             на сумму &#x20bd;
-            {position.amount} по категории &ldquo;{position.category.label}
+            {position.amount.toLocaleString('ru-RU')} по категории &ldquo;
+            {position.category.label}
             &rdquo;
           </Text>
           {position.comment && (

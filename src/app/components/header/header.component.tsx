@@ -1,19 +1,38 @@
 'use client'
 
 import useUserData from '@/utils/hooks/use-user-data'
-import { Avatar, Button, Flex, Popover, Title } from '@mantine/core'
+import { useGetUserBalance } from '@/utils/requests/get-users-balance'
+import {
+  Avatar,
+  Button,
+  Flex,
+  Pill,
+  Popover,
+  Stack,
+  Text,
+  Title,
+} from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
+import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 
 export const HeaderComponent = () => {
   const user = useUserData()
+  const {
+    data: { balance },
+  } = useGetUserBalance()
 
   const router = useRouter()
 
   const pathname = usePathname()
 
+  const isMobile = useMediaQuery('(max-width: 1000px)')
+
   if (['/sign-in', '/sign-up'].includes(pathname)) {
     return null
   }
+
+  const onDashboard = ['/dashboard'].includes(pathname)
 
   const signOff = () => {
     localStorage.removeItem('user')
@@ -26,7 +45,23 @@ export const HeaderComponent = () => {
       <Flex ml={32}>
         <Title order={2}>Coinly</Title>
       </Flex>
-      <Flex>
+      <Flex align='center' gap={24}>
+        {balance !== null && !onDashboard && (
+          <Pill size='lg'>
+            Баланс:{' '}
+            <Text
+              fw='bolder'
+              style={{
+                backgroundImage: 'linear-gradient(red, blue)',
+                color: 'transparent',
+                backgroundClip: 'text',
+              }}
+              span
+            >
+              {balance?.toLocaleString('ru-RU')}₽
+            </Text>
+          </Pill>
+        )}
         <Popover>
           <Popover.Target>
             <Avatar
@@ -35,13 +70,41 @@ export const HeaderComponent = () => {
               }}
               radius='xl'
             >
-              {user?.name}
+              {user?.name.substring(0, 1)}
             </Avatar>
           </Popover.Target>
           <Popover.Dropdown>
-            <Button onClick={signOff} variant='transparent'>
-              Выйти
-            </Button>
+            <Stack>
+              {isMobile && (
+                <>
+                  <Button variant='transparent'>
+                    <Link
+                      style={{
+                        color: 'var(--mantine-color-blue-6)',
+                        textDecoration: 'none',
+                      }}
+                      href='/dashboard'
+                    >
+                      Главная
+                    </Link>
+                  </Button>
+                  <Button variant='transparent'>
+                    <Link
+                      style={{
+                        color: 'var(--mantine-color-blue-6)',
+                        textDecoration: 'none',
+                      }}
+                      href='/reports'
+                    >
+                      Отчеты
+                    </Link>
+                  </Button>
+                </>
+              )}
+              <Button onClick={signOff} variant='transparent'>
+                Выйти
+              </Button>
+            </Stack>
           </Popover.Dropdown>
         </Popover>
       </Flex>

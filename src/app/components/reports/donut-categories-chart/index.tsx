@@ -17,9 +17,9 @@ export const DonutCategoriesChart = () => {
   })
 
   return (
-    <Card shadow='xl' radius='lg'>
+    <Card mih={300} shadow='xl' radius='lg'>
       <Title order={2}>График категорий</Title>
-      <Center h='100%'>
+      <Center h='100%' mt={20}>
         <DonutChart data={mappedData} />
       </Center>
     </Card>

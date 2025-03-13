@@ -1,15 +1,28 @@
 'use client'
 
-import { SimpleGrid, Stack } from '@mantine/core'
+import { Grid, SimpleGrid, Stack } from '@mantine/core'
 import { MostPopularCard } from '../components/reports/most-popular'
 import { DonutCategoriesChart } from '../components/reports/donut-categories-chart'
+import { TodaysEarningCard } from '../components/reports/todays-earning-chart'
+import { TodaysSpendingCard } from '../components/reports/todays-spendings-chart'
+import { useMediaQuery } from '@mantine/hooks'
 
 const ReportsPage = () => {
+  const isMobile = useMediaQuery('(max-width: 1000px)')
+
   return (
     <Stack>
-      <SimpleGrid cols={2}>
-        <MostPopularCard />
-        <DonutCategoriesChart />
+      <Grid>
+        <Grid.Col span={isMobile ? 12 : 8}>
+          <MostPopularCard />
+        </Grid.Col>
+        <Grid.Col span={isMobile ? 12 : 4}>
+          <DonutCategoriesChart />
+        </Grid.Col>
+      </Grid>
+      <SimpleGrid cols={isMobile ? 1 : 2}>
+        <TodaysEarningCard />
+        <TodaysSpendingCard />
       </SimpleGrid>
     </Stack>
   )

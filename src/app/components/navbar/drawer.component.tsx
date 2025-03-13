@@ -55,11 +55,17 @@ export const DrawerContent: React.FC<{ closeDrawer: () => void }> = ({
     createNewAccountPosition.mutate(values, {
       onSuccess: () => {
         notifications.show({
-          message: `Позиция на сумму ₽${values.amount} создана!`,
+          message: `Позиция на сумму ${values.amount}₽ создана!`,
           color: 'green',
         })
 
-        queryClient.invalidateQueries({ queryKey: ['get-user-positions'] })
+        queryClient.invalidateQueries({
+          queryKey: ['get-user-positions'],
+        })
+
+        queryClient.invalidateQueries({
+          queryKey: ['user-balance'],
+        })
 
         closeDrawer()
       },

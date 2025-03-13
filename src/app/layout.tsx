@@ -24,6 +24,9 @@ import { HeaderComponent } from './components/header/header.component'
 import { Navbar } from './components/navbar/navbar.component'
 import { DatesProvider } from '@mantine/dates'
 import { usePathname } from 'next/navigation'
+import { NewBalanceModal } from './components/new-balance-modal'
+import { useMediaQuery } from '@mantine/hooks'
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 export default function RootLayout({
   children,
@@ -31,9 +34,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   const pathname = usePathname()
-  const isOnLoginScreen = ['/sign-in', '/sign-up'].includes(pathname)
 
   const queryClient = new QueryClient()
+
+  const isOnLoginScreen = ['/sign-in', '/sign-up'].includes(pathname)
+
+  const isMobile = useMediaQuery('(max-width: 1000px)')
 
   return (
     <html lang='en' {...mantineHtmlProps}>
@@ -43,8 +49,11 @@ export default function RootLayout({
       <body>
         <UserProvider>
           <QueryClientProvider client={queryClient}>
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+
             <MantineProvider>
               <Notifications />
+              {!isOnLoginScreen && <NewBalanceModal />}
 
               <DatesProvider
                 settings={{
@@ -54,7 +63,7 @@ export default function RootLayout({
               >
                 <AppShell
                   navbar={{
-                    width: isOnLoginScreen ? 0 : 200,
+                    width: isOnLoginScreen ? 0 : { sm: 0, md: 200 },
                     breakpoint: 'sm',
                   }}
                   padding='md'
@@ -65,12 +74,14 @@ export default function RootLayout({
                       <AppShell.Header>
                         <HeaderComponent />
                       </AppShell.Header>
-                      <AppShell.Navbar p='md'>
-                        <Navbar />
-                      </AppShell.Navbar>
+                      {!isMobile && (
+                        <AppShell.Navbar p='md'>
+                          <Navbar />
+                        </AppShell.Navbar>
+                      )}
                     </>
                   )}
-                  <AppShell.Main>{children}</AppShell.Main>
+                  <AppShell.Main bg={'blue.0'}>{children}</AppShell.Main>
                 </AppShell>
               </DatesProvider>
             </MantineProvider>

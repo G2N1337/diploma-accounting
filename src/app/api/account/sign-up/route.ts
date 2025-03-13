@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     }
 
     // Создание нового пользователя
-    const user = await User.create({ login, password, name });
+    const user = await User.create({ login, password, name, balance: null });
 
     if (!user) {
       return NextResponse.json(
@@ -38,6 +38,7 @@ export async function POST(request: Request) {
         _id: user._id,
         login: user.login,
         name: user.name,
+        balance: null,
         token,
       },
       { status: 201 }
