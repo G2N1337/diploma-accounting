@@ -71,7 +71,7 @@ const DashboardPage = () => {
         </SimpleGrid>
       </Stack>
 
-      <SimpleGrid cols={1}>
+      <Stack>
         {data.data.length > 0 ? (
           data.data.map((position) => {
             return <PositionCard position={position} key={position._id} />
@@ -102,7 +102,7 @@ const DashboardPage = () => {
             </Text>
           </Group>
         )}
-      </SimpleGrid>
+      </Stack>
     </>
   )
 }

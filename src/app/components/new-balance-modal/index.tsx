@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { NumberInput } from '../ui-form/NumberInput'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { balanceObjectSchema } from './validation'
-import { IconCurrencyRubel, IconTextCaption } from '@tabler/icons-react'
+import { IconCurrencyRubel, IconForms } from '@tabler/icons-react'
 import { useCreateInitialBalance } from '@/utils/requests/create-initial-balance'
 import { useQueryClient } from '@tanstack/react-query'
 import { TextInput } from '../ui-form/TextInput'
@@ -49,7 +49,7 @@ export const NewBalanceModal = () => {
             <Flex gap={20} direction='column'>
               <TextInput
                 placeholder='Имя счета'
-                leftSection={<IconTextCaption />}
+                leftSection={<IconForms />}
                 control={control}
                 name='name'
               />
