@@ -19,7 +19,7 @@ import { usePathname, useRouter } from 'next/navigation'
 export const HeaderComponent = () => {
   const user = useUserData()
   const {
-    data: { balance },
+    data: { totalBalance },
   } = useGetUserBalance()
 
   const router = useRouter()
@@ -46,7 +46,7 @@ export const HeaderComponent = () => {
         <Title order={2}>Coinly</Title>
       </Flex>
       <Flex align='center' gap={24}>
-        {balance !== null && !onDashboard && (
+        {totalBalance !== null && !onDashboard && (
           <Pill size='lg'>
             Баланс:{' '}
             <Text
@@ -58,7 +58,7 @@ export const HeaderComponent = () => {
               }}
               span
             >
-              {balance?.toLocaleString('ru-RU')}₽
+              {totalBalance?.toLocaleString('ru-RU')}₽
             </Text>
           </Pill>
         )}

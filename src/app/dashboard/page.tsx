@@ -4,12 +4,10 @@ import { useUserAccountPositions } from '@/utils/requests/get-all-user-positions
 import {
   ActionIcon,
   Group,
-  Pill,
   Select,
   SimpleGrid,
   Stack,
   Text,
-  Title,
 } from '@mantine/core'
 import React from 'react'
 import { PositionCard } from './components/position-card'
@@ -18,7 +16,7 @@ import { useSearchParams } from 'next/navigation'
 import { useQueryString } from '@/utils/create-query-string'
 import { useExpenseCategories } from '@/utils/requests/get-all-categories'
 import { IconPlus } from '@tabler/icons-react'
-import { useGetUserBalance } from '@/utils/requests/get-users-balance'
+import { Wallets } from './components/wallets'
 
 const DashboardPage = () => {
   const searchParams = useSearchParams()
@@ -42,30 +40,10 @@ const DashboardPage = () => {
   const handleSelectFilter = (value: string | null, type: string) => {
     createParams(type, value ?? '')
   }
-  const {
-    data: { balance },
-  } = useGetUserBalance()
 
   return (
     <>
-      {balance !== null && (
-        <Title mb={24} fw='normal' order={2}>
-          Ваш текущий баланс:{' '}
-          <Pill bg='blue.2' size='xl'>
-            <Text
-              fw='bolder'
-              style={{
-                backgroundImage: 'linear-gradient(red, blue)',
-                color: 'transparent',
-                backgroundClip: 'text',
-              }}
-              span
-            >
-              {balance?.toLocaleString('ru-RU')}₽
-            </Text>
-          </Pill>
-        </Title>
-      )}
+      <Wallets />
       <Text
         size='xl'
         mb={12}
@@ -79,21 +57,21 @@ const DashboardPage = () => {
         <SimpleGrid cols={2}>
           <Select
             radius='lg'
-            placeholder='Фильтры по типу операций'
+            placeholder='Тип операции'
             onChange={(e) => handleSelectFilter(e, 'type')}
             data={[{ value: '', label: 'Все' }, ...changeTypeControls]}
           />
 
           <Select
             radius='lg'
-            placeholder='Фильтры по категориям'
+            placeholder='Категория'
             onChange={(e) => handleSelectFilter(e, 'category')}
             data={[{ value: '', label: 'Все' }, ...expenseCategoriesControls]}
           />
         </SimpleGrid>
       </Stack>
 
-      <Stack>
+      <SimpleGrid cols={1}>
         {data.data.length > 0 ? (
           data.data.map((position) => {
             return <PositionCard position={position} key={position._id} />
@@ -124,7 +102,7 @@ const DashboardPage = () => {
             </Text>
           </Group>
         )}
-      </Stack>
+      </SimpleGrid>
     </>
   )
 }

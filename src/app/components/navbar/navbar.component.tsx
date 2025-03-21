@@ -19,7 +19,7 @@ export const Navbar = () => {
       >
         <IconPlus />
       </ActionIcon>
-      <Drawer opened={opened} onClose={close} title='Добавить расходы'>
+      <Drawer opened={opened} onClose={close}>
         <DrawerContent closeDrawer={close} />
       </Drawer>
       <Button variant='transparent'>

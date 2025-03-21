@@ -4,6 +4,7 @@ import { Button, Group, Stack, Text } from '@mantine/core'
 import {
   IconBubbleText,
   IconCalendar,
+  IconCheck,
   IconCirclePlusFilled,
   IconCurrencyRubel,
   IconShoppingBagPlus,
@@ -20,6 +21,35 @@ import { TextInput } from '../ui-form/TextInput'
 import { useNewAccountPosition } from '@/utils/requests/create-account-position'
 import { notifications } from '@mantine/notifications'
 import { useQueryClient } from '@tanstack/react-query'
+import { useGetUserBalance } from '@/utils/requests/get-users-balance'
+
+const SelectWalletRenderOption = ({
+  option,
+  checked,
+}: {
+  option: { label: string; balance: number; value: string }
+  checked: boolean
+}) => {
+  return (
+    <Group flex='1' gap='xs'>
+      <Stack gap={2}>
+        <Text size='sm'>{option.label}</Text>
+        <Text
+          fw='bold'
+          size='xs'
+          style={{
+            backgroundImage: 'linear-gradient(red, blue)',
+            color: 'transparent',
+            backgroundClip: 'text',
+          }}
+        >
+          {option.balance}₽
+        </Text>
+      </Stack>
+      {checked && <IconCheck style={{ marginInlineStart: 'auto' }} />}
+    </Group>
+  )
+}
 
 export const DrawerContent: React.FC<{ closeDrawer: () => void }> = ({
   closeDrawer,
@@ -27,6 +57,10 @@ export const DrawerContent: React.FC<{ closeDrawer: () => void }> = ({
   const { data } = useAccountChangeTypes()
 
   const { data: expenseCategories } = useExpenseCategories()
+
+  const {
+    data: { wallets },
+  } = useGetUserBalance()
 
   const queryClient = useQueryClient()
 
@@ -47,6 +81,7 @@ export const DrawerContent: React.FC<{ closeDrawer: () => void }> = ({
       category: '',
       date: new Date(),
       type: '',
+      wallet: '',
       comment: '',
     },
   })
@@ -84,6 +119,21 @@ export const DrawerContent: React.FC<{ closeDrawer: () => void }> = ({
             data={changeTypeControls}
           />
         )}
+
+        <Select
+          placeholder='Выберите счет'
+          name='wallet'
+          data={wallets?.map((wallet) => {
+            return {
+              label: `${wallet.name}`,
+              value: wallet._id,
+              balance: wallet.balance,
+            }
+          })}
+          control={control}
+          //@ts-expect-error: idc
+          renderOption={SelectWalletRenderOption}
+        />
 
         {expenseCategoriesControls && (
           <Select

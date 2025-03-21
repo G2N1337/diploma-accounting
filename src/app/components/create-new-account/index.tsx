@@ -1,25 +1,26 @@
-import { useGetUserBalance } from '@/utils/requests/get-users-balance'
-import { Button, Flex, Modal, Stack, Text, Title } from '@mantine/core'
+import { Button, Flex, Modal, Stack, Title } from '@mantine/core'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { NumberInput } from '../ui-form/NumberInput'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { balanceObjectSchema } from './validation'
 import { IconCurrencyRubel, IconTextCaption } from '@tabler/icons-react'
 import { useCreateInitialBalance } from '@/utils/requests/create-initial-balance'
 import { useQueryClient } from '@tanstack/react-query'
 import { TextInput } from '../ui-form/TextInput'
+import { balanceObjectSchema } from './validation'
 
-export const NewBalanceModal = () => {
+export const CreateNewAccountModal = ({
+  opened,
+  onClose,
+}: {
+  opened: boolean
+  onClose: () => void
+}) => {
   const queryClient = useQueryClient()
-
-  const {
-    data: { wallets },
-  } = useGetUserBalance()
 
   const createInitialBalance = useCreateInitialBalance()
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     resolver: zodResolver(balanceObjectSchema),
     defaultValues: {
       balance: 0,
@@ -31,20 +32,17 @@ export const NewBalanceModal = () => {
     createInitialBalance.mutate(values, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['user-balance'] })
+        reset()
+        onClose()
       },
     })
   }
 
   return (
-    <Modal
-      withCloseButton={false}
-      opened={wallets !== undefined && !wallets.length}
-      onClose={() => {}}
-    >
-      <Title order={3}>Введите ваш баланс на текущий момент</Title>
+    <Modal withCloseButton={false} opened={opened} onClose={onClose}>
+      <Title order={3}>Создать новый счет!</Title>
       <Modal.Body>
         <Stack mt={24}>
-          <Text>Для начала работы с Coinly нужно создать счет</Text>
           <form onSubmit={handleSubmit(submit)}>
             <Flex gap={20} direction='column'>
               <TextInput
@@ -59,7 +57,7 @@ export const NewBalanceModal = () => {
                 name='balance'
                 control={control}
               />
-              <Button type='submit'>Подтвердить</Button>
+              <Button type='submit'>Создать</Button>
             </Flex>
           </form>
         </Stack>

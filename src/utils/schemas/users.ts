@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 
 export interface IUser extends Document {
   name: string;
-  balance: number
   login: string;
   password: string
   matchPassword: (enteredPassword: string) => Promise<boolean>;
@@ -13,10 +12,6 @@ const UserSchema: Schema<IUser> = new mongoose.Schema({
   name: {
     type: String,
     required: false,
-  },
-  balance: {
-    type: Number,
-    default: null
   },
   login: {
     type: String,

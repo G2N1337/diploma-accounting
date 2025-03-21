@@ -2,7 +2,6 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/utils/db-connect";
 import { isLogged } from "@/utils/middlewares/isLogged";
-import { WalletType } from "@/utils/types/wallet";
 import Wallet from "@/utils/schemas/wallets";
 
 export async function POST(req: Request) {
@@ -11,13 +10,15 @@ export async function POST(req: Request) {
 
     const user = await isLogged()
 
-    if (user) {
-      const body: WalletType = await req.json()
+    const body: { id: string } = await req.json()
 
-      //@ts-expect-error: idc
-      const wallet = await Wallet.create({ name: body.name, balance: body.balance, user: user?._id })
+    const wallet = await Wallet.findById(body.id)
 
-      return NextResponse.json({ wallet })
+    //@ts-expect-error: idc
+    if (user && wallet?.user.toString() === user._id.toString()) {
+      await wallet?.deleteOne()
+
+      return NextResponse.json({ status: 'success' }, { status: 200 })
     }
 
     return NextResponse.json({ status: 'error' })

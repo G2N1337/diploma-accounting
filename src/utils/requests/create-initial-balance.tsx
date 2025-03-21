@@ -4,11 +4,11 @@ import axiosClient from './axios/client'
 const postNewAccountPosition = async (payload: {
   balance: number
 }): Promise<{
-  data: { balance: number }
+  data: { balance: number; name: string }
   success: boolean
 }> => {
   const { data } = await axiosClient.post<{
-    data: { balance: number }
+    data: { balance: number; name: string }
     success: boolean
   }>('/api/create-initial-balance', payload)
 
@@ -18,7 +18,7 @@ const postNewAccountPosition = async (payload: {
 export const useCreateInitialBalance = () => {
   return useMutation<
     {
-      data: { balance: number } | undefined
+      data: { balance: number; name: string } | undefined
       success: boolean
     },
     unknown,

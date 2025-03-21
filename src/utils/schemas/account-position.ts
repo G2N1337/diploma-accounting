@@ -6,6 +6,7 @@ export interface AccountPosition {
   category: ExpenseCategoriesType;
   type: AccountChangeInterface;
   user: typeof mongoose.Schema.ObjectId
+  wallet: typeof mongoose.Schema.ObjectId
   amount: number
   comment: string
   date: Date
@@ -17,6 +18,11 @@ const AccountPositionSchema: Schema<AccountPosition> = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     required: true,
     ref: 'ExpenseCategories'
+  },
+  wallet: {
+    type: mongoose.Schema.ObjectId,
+    required: true,
+    ref: 'Wallet'
   },
   user: {
     type: mongoose.Schema.ObjectId,

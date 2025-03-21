@@ -9,7 +9,7 @@ import 'dayjs/locale/ru'
 
 import '../utils/error-map'
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 import {
   AppShell,
   ColorSchemeScript,
@@ -27,6 +27,7 @@ import { usePathname } from 'next/navigation'
 import { NewBalanceModal } from './components/new-balance-modal'
 import { useMediaQuery } from '@mantine/hooks'
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { queryClient } from './queryClient'
 
 export default function RootLayout({
   children,
@@ -34,8 +35,6 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   const pathname = usePathname()
-
-  const queryClient = new QueryClient()
 
   const isOnLoginScreen = ['/sign-in', '/sign-up'].includes(pathname)
 
@@ -49,7 +48,7 @@ export default function RootLayout({
       <body>
         <UserProvider>
           <QueryClientProvider client={queryClient}>
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            {/* <ReactQueryDevtools client={queryClient} initialIsOpen={false} /> */}
 
             <MantineProvider>
               <Notifications />
@@ -81,7 +80,7 @@ export default function RootLayout({
                       )}
                     </>
                   )}
-                  <AppShell.Main bg={'blue.0'}>{children}</AppShell.Main>
+                  <AppShell.Main bg={'green.1'}>{children}</AppShell.Main>
                 </AppShell>
               </DatesProvider>
             </MantineProvider>

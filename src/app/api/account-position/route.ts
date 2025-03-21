@@ -4,6 +4,7 @@ import { isLogged } from "@/utils/middlewares/isLogged";
 import AccountPosition from "@/utils/schemas/account-position";
 import { AccountingType } from "@/app/components/navbar/validation";
 import AccountChangeType from "@/utils/schemas/account-change-type";
+import Wallet from "@/utils/schemas/wallets";
 
 export async function POST(req: Request) {
   try {
@@ -14,24 +15,24 @@ export async function POST(req: Request) {
     if (user) {
       const body: AccountingType = await req.json()
 
-
       const plusOperationType = await AccountChangeType.findOne({
         name: 'Пополнение'
       })
 
+      const wallet = await Wallet.findById(body.wallet)
+
       if (body.type === plusOperationType?._id.toString()) {
         //@ts-expect-error: IDK
-        user.balance += body.amount
+        wallet.balance += body.amount
       } else {
         //@ts-expect-error: IDK
-        user.balance -= body.amount
+        wallet.balance -= body.amount
       }
 
-      //@ts-expect-error: IDK
-      user.save()
+      wallet?.save()
 
       //@ts-expect-error: IDK
-      const accountChange = new AccountPosition({ ...body, user: user?._id })
+      const accountChange = new AccountPosition({ ...body, user: user?._id, wallet: wallet?.id })
 
       await accountChange.save()
 
