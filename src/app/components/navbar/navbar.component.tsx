@@ -4,12 +4,17 @@ import { IconPlus } from '@tabler/icons-react'
 import { useDisclosure } from '@mantine/hooks'
 import { DrawerContent } from './drawer.component'
 import Link from 'next/link'
+import { OneCModal } from './import-1c-excel.component'
 
 export const Navbar = () => {
   const [opened, { open, close }] = useDisclosure(false)
 
+  const [openedImport, { open: openImport, close: closeImport }] =
+    useDisclosure(false)
+
   return (
     <Stack h='100%'>
+      <OneCModal close={closeImport} opened={openedImport} />
       <ActionIcon
         variant='gradient'
         onClick={open}
@@ -43,6 +48,9 @@ export const Navbar = () => {
         >
           Отчеты
         </Link>
+      </Button>
+      <Button onClick={openImport} variant='transparent'>
+        Импорт из 1С
       </Button>
     </Stack>
   )

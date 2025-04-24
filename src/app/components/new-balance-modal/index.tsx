@@ -44,7 +44,7 @@ export const NewBalanceModal = () => {
       <Title order={3}>Введите ваш баланс на текущий момент</Title>
       <Modal.Body>
         <Stack mt={24}>
-          <Text>Для начала работы с Coinly нужно создать счет</Text>
+          <Text>Для начала работы с Системой нужно создать счет</Text>
           <form onSubmit={handleSubmit(submit)}>
             <Flex gap={20} direction='column'>
               <TextInput

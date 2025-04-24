@@ -43,7 +43,7 @@ export const HeaderComponent = () => {
   return (
     <Flex w='100%' justify='space-between' align='center' h='100%' px={32}>
       <Flex ml={32}>
-        <Title order={2}>Coinly</Title>
+        <Title order={2}>Система</Title>
       </Flex>
       <Flex align='center' gap={24}>
         {totalBalance !== null && !onDashboard && (

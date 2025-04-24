@@ -6,6 +6,7 @@ import { DonutCategoriesChart } from '../components/reports/donut-categories-cha
 import { TodaysEarningCard } from '../components/reports/todays-earning-chart'
 import { TodaysSpendingCard } from '../components/reports/todays-spendings-chart'
 import { useMediaQuery } from '@mantine/hooks'
+import { ApproximateChart } from '../components/reports/approximate-chart'
 
 const ReportsPage = () => {
   const isMobile = useMediaQuery('(max-width: 1000px)')
@@ -23,6 +24,9 @@ const ReportsPage = () => {
       <SimpleGrid cols={isMobile ? 1 : 2}>
         <TodaysEarningCard />
         <TodaysSpendingCard />
+      </SimpleGrid>
+      <SimpleGrid cols={isMobile ? 1 : 2}>
+        <ApproximateChart />
       </SimpleGrid>
     </Stack>
   )
