@@ -13,6 +13,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import {
   AppShell,
   ColorSchemeScript,
+  createTheme,
   mantineHtmlProps,
   MantineProvider,
 } from '@mantine/core'
@@ -27,8 +28,14 @@ import { usePathname } from 'next/navigation'
 import { NewBalanceModal } from './components/new-balance-modal'
 import { useMediaQuery } from '@mantine/hooks'
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { Rubik } from 'next/font/google'
+
 import { queryClient } from './queryClient'
 
+const font = Rubik({
+  subsets: ['latin', 'cyrillic'],
+  display: 'swap',
+})
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -40,6 +47,14 @@ export default function RootLayout({
 
   const isMobile = useMediaQuery('(max-width: 1000px)')
 
+  const theme = createTheme({
+    fontFamily: font.style.fontFamily,
+    headings: {
+      // Use default theme if you want to provide default Mantine fonts as a fallback
+      fontFamily: `${font.style.fontFamily}`,
+    },
+  })
+
   return (
     <html lang='en' {...mantineHtmlProps}>
       <head>
@@ -50,7 +65,7 @@ export default function RootLayout({
           <QueryClientProvider client={queryClient}>
             {/* <ReactQueryDevtools client={queryClient} initialIsOpen={false} /> */}
 
-            <MantineProvider>
+            <MantineProvider theme={theme}>
               <Notifications />
               {!isOnLoginScreen && <NewBalanceModal />}
 
