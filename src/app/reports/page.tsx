@@ -13,7 +13,7 @@ const ReportsPage = () => {
 
   return (
     <Stack>
-      <Grid>
+      <Grid grow>
         <Grid.Col span={isMobile ? 12 : 8}>
           <MostPopularCard />
         </Grid.Col>

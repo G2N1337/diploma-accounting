@@ -43,7 +43,7 @@ export const OneCModal = ({
       category: '67d133eebf3e130ccd80f996',
       date: getPastDate({ endOfDay: true, daysAgo: 1 }),
       type: '67c65ee94d4684df26e04081',
-      wallet: '67ddac06b6ec1495fd9b862e',
+      wallet: '683a17cb8b990b8aeefc0a39',
       comment: '',
     })
 
@@ -52,7 +52,7 @@ export const OneCModal = ({
       category: '67d133eebf3e130ccd80f99a',
       date: getPastDate({ startOfDay: true, daysAgo: 2 }),
       type: '67c65ee94d4684df26e04081',
-      wallet: '67ddac06b6ec1495fd9b862e',
+      wallet: '683a17cb8b990b8aeefc0a39',
       comment: '',
     })
 
@@ -61,7 +61,7 @@ export const OneCModal = ({
       category: '67d133eebf3e130ccd80f997',
       date: getPastDate({ startOfDay: true, daysAgo: 4 }),
       type: '67c65ee94d4684df26e04080',
-      wallet: '67ddac06b6ec1495fd9b862e',
+      wallet: '683a17cb8b990b8aeefc0a39',
       comment: '',
     })
 
@@ -70,7 +70,7 @@ export const OneCModal = ({
       category: '67d133eebf3e130ccd80f997',
       date: getPastDate({ startOfDay: true, daysAgo: 2 }),
       type: '67c65ee94d4684df26e04081',
-      wallet: '67ddac06b6ec1495fd9b862e',
+      wallet: '683a17cb8b990b8aeefc0a39',
       comment: '',
     })
 
@@ -80,7 +80,7 @@ export const OneCModal = ({
         category: '67d133eebf3e130ccd80f999',
         date: getPastDate({ startOfDay: true, daysAgo: 3 }),
         type: '67c65ee94d4684df26e04080',
-        wallet: '67ddac06b6ec1495fd9b862e',
+        wallet: '683a17cb8b990b8aeefc0a39',
         comment: '',
       },
       {
@@ -88,6 +88,8 @@ export const OneCModal = ({
           queryClient.invalidateQueries({
             queryKey: ['get-user-positions'],
           })
+
+          queryClient.invalidateQueries({ queryKey: ['user-balance'] })
 
           notifications.show({
             message: `Документ успешно импортирован!`,

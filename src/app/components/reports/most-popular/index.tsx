@@ -36,10 +36,8 @@ export const MostPopularCard = () => {
   const { data } = useMostCommonCategories()
 
   return (
-    <Card mih={300} shadow='xl' radius='lg'>
-      <Card.Section px={20}>
-        <Title order={2}>Самые частые категории</Title>
-      </Card.Section>
+    <Card mih={300} pt={16} shadow='xl' radius='lg'>
+      <Title order={2}>Самые частые категории</Title>
       <CardSection p={20}>
         <List type='ordered' spacing='md'>
           {data.data.map((category, index) => {

@@ -5,7 +5,6 @@ import {
   IconBubbleText,
   IconCalendar,
   IconCheck,
-  IconCirclePlusFilled,
   IconCurrencyRubel,
   IconShoppingBagPlus,
 } from '@tabler/icons-react'
@@ -168,9 +167,7 @@ export const DrawerContent: React.FC<{ closeDrawer: () => void }> = ({
         />
 
         <Button type='submit' variant='gradient'>
-          <Group gap='xs'>
-            <IconCirclePlusFilled /> <Text>Добавить</Text>
-          </Group>
+          Добавить операцию
         </Button>
       </Stack>
     </form>

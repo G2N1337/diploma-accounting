@@ -1,32 +1,17 @@
-import { ActionIcon, Button, Drawer, Stack } from '@mantine/core'
+import { Avatar, Button, Group, Stack } from '@mantine/core'
 import React from 'react'
-import { IconPlus } from '@tabler/icons-react'
 import { useDisclosure } from '@mantine/hooks'
-import { DrawerContent } from './drawer.component'
 import Link from 'next/link'
 import { OneCModal } from './import-1c-excel.component'
+import { IconChevronRight, IconCube, IconKey } from '@tabler/icons-react'
 
 export const Navbar = () => {
-  const [opened, { open, close }] = useDisclosure(false)
-
   const [openedImport, { open: openImport, close: closeImport }] =
     useDisclosure(false)
 
   return (
-    <Stack h='100%'>
+    <Stack h='100%' align='start'>
       <OneCModal close={closeImport} opened={openedImport} />
-      <ActionIcon
-        variant='gradient'
-        onClick={open}
-        mx='auto'
-        size='xl'
-        radius='xl'
-      >
-        <IconPlus />
-      </ActionIcon>
-      <Drawer opened={opened} onClose={close}>
-        <DrawerContent closeDrawer={close} />
-      </Drawer>
       <Button variant='transparent'>
         <Link
           style={{
@@ -35,7 +20,12 @@ export const Navbar = () => {
           }}
           href='/dashboard'
         >
-          Главная
+          <Group align='center'>
+            <Avatar size='sm' color='blue'>
+              <IconKey size={16} />
+            </Avatar>
+            Главная <IconChevronRight size={14} />
+          </Group>
         </Link>
       </Button>
       <Button variant='transparent'>
@@ -46,7 +36,12 @@ export const Navbar = () => {
           }}
           href='/reports'
         >
-          Отчеты
+          <Group align='center'>
+            <Avatar size='sm' color='blue'>
+              <IconCube size={16} />
+            </Avatar>
+            Отчеты <IconChevronRight size={14} />
+          </Group>
         </Link>
       </Button>
       <Button onClick={openImport} variant='transparent'>

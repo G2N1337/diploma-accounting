@@ -80,7 +80,9 @@ export default function RootLayout({
                       )}
                     </>
                   )}
-                  <AppShell.Main bg={'green.1'}>{children}</AppShell.Main>
+                  <AppShell.Main bg={'rgb(234, 245, 255)'}>
+                    {children}
+                  </AppShell.Main>
                 </AppShell>
               </DatesProvider>
             </MantineProvider>
